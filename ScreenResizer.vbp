@@ -12,6 +12,7 @@ Class=Monitor; Monitor.cls
 Reference=*\G{7C0FFAB0-CD84-11D0-949A-00A0C91110ED}#1.0#0#C:\Windows\SysWOW64\msdatsrc.tlb#Microsoft Data Source Interfaces for ActiveX Data Binding Type Library
 UserControl=Taskbar-Tools\uButton.ctl
 UserControl=Taskbar-Tools\uToolTip.ctl
+Form=frmIdentify.frm
 Startup="Sub Main"
 HelpFile=""
 Title="ScreenResizer"
