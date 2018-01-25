@@ -14,7 +14,7 @@ Declare Function EnumDisplaySettings _
 Declare Function ChangeDisplaySettings _
  Lib "user32" Alias "ChangeDisplaySettingsA" ( _
  ByRef lpDevMode As devMode, _
- ByVal dwflags As Long) As Long
+ ByVal dwFlags As Long) As Long
  
 
 Private Type POINTL
@@ -77,7 +77,7 @@ End Type
 
 Declare Function ChangeDisplaySettingsEx Lib "user32" Alias "ChangeDisplaySettingsExA" _
         (ByVal lpszDeviceName As String, ByRef lpDevMode As devMode, ByVal hWnd As Long, _
-        ByVal dwflags As Long, ByVal lParam As Long) As Long
+        ByVal dwFlags As Long, ByVal lParam As Long) As Long
     
     
 Declare Function EnumDisplayDevices Lib "user32" _
@@ -85,22 +85,24 @@ Declare Function EnumDisplayDevices Lib "user32" _
   (ByVal lpDevice As Any, _
    ByVal iDevNum As Long, _
    lpDisplayDevice As DISPLAY_DEVICE, _
-   ByVal dwflags As Long) As Long
+   ByVal dwFlags As Long) As Long
    
    
-Global Const CDS_UPDATEREGISTRY = &H1
-Global Const CDS_TEST = &H4
-Global Const CDS_RESET = &H40000000
+Global Const CDS_UPDATEREGISTRY As Long = &H1
+Global Const CDS_TEST As Long = &H4
+Global Const CDS_RESET As Long = &H40000000
+Global Const CDS_SET_PRIMARY As Long = &H10
+Global Const CDS_NORESET As Long = &H10000000
+Global Const CDS_FORCE As Long = &H80000000
 
+Global Const DISP_CHANGE_SUCCESSFUL As Long = 0
+Global Const DISP_CHANGE_RESTART As Long = 1
 
-Global Const DISP_CHANGE_SUCCESSFUL = 0
-Global Const DISP_CHANGE_RESTART = 1
-
-Global Const DM_BITSPERPEL = &H40000
-Global Const DM_PELSWIDTH = &H80000
-Global Const DM_PELSHEIGHT = &H100000
-Global Const DM_DISPLAYFREQUENCY = &H400000
-
+Global Const DM_BITSPERPEL As Long = &H40000
+Global Const DM_PELSWIDTH As Long = &H80000
+Global Const DM_PELSHEIGHT As Long = &H100000
+Global Const DM_DISPLAYFREQUENCY As Long = &H400000
+Global Const DM_POSITION As Long = &H20
 
 Type DISPLAY_DEVICE
    cb As Long

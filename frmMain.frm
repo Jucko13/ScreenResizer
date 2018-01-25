@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmMain 
    BackColor       =   &H00404040&
    Caption         =   "Screen Resizer by Ricardo de Roode v1.0"
-   ClientHeight    =   6435
+   ClientHeight    =   7170
    ClientLeft      =   120
    ClientTop       =   465
    ClientWidth     =   8790
@@ -16,10 +16,43 @@ Begin VB.Form frmMain
       Strikethrough   =   0   'False
    EndProperty
    LinkTopic       =   "Form1"
-   ScaleHeight     =   429
+   LockControls    =   -1  'True
+   ScaleHeight     =   478
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   586
    StartUpPosition =   3  'Windows Default
+   Begin VB.Timer tmrErrorHide 
+      Enabled         =   0   'False
+      Interval        =   3000
+      Left            =   4050
+      Top             =   585
+   End
+   Begin Project1.uTextBox utxtError 
+      Height          =   525
+      Left            =   3540
+      TabIndex        =   30
+      Top             =   450
+      Visible         =   0   'False
+      Width           =   360
+      _ExtentX        =   635
+      _ExtentY        =   926
+      BackgroundColor =   7667560
+      BorderColor     =   49152
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Consolas"
+         Size            =   15.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   49152
+      ConsoleColors   =   0   'False
+      RowLineColor    =   255
+      HideCursor      =   -1  'True
+      AutoResize      =   -1  'True
+   End
    Begin Project1.uToolTip uttHelp 
       Height          =   420
       Left            =   4710
@@ -31,13 +64,13 @@ Begin VB.Form frmMain
       _ExtentY        =   53
    End
    Begin Project1.uButton ubtnScanMonitors 
-      Height          =   690
+      Height          =   330
       Left            =   135
       TabIndex        =   2
       Top             =   135
       Width           =   1830
       _ExtentX        =   3228
-      _ExtentY        =   1217
+      _ExtentY        =   582
       BackgroundColor =   33023
       ForeColor       =   16777215
       MouseOverBackgroundColor=   8438015
@@ -63,14 +96,14 @@ Begin VB.Form frmMain
       EndProperty
    End
    Begin Project1.uFrame ufrmSavedSettings 
-      Height          =   6270
+      Height          =   6870
       Index           =   0
       Left            =   5505
       TabIndex        =   0
       Top             =   60
       Width           =   3165
       _ExtentX        =   5583
-      _ExtentY        =   11060
+      _ExtentY        =   12118
       BackgroundColor =   4210752
       ForeColor       =   16777215
       Caption         =   "Saved Settings"
@@ -84,13 +117,13 @@ Begin VB.Form frmMain
          Strikethrough   =   0   'False
       EndProperty
       Begin Project1.uListBox ulstSavedMonitors 
-         Height          =   3705
+         Height          =   4335
          Left            =   135
          TabIndex        =   1
          Top             =   930
          Width           =   2895
          _ExtentX        =   5106
-         _ExtentY        =   6535
+         _ExtentY        =   7646
          BackgroundColor =   33023
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "Consolas"
@@ -106,7 +139,7 @@ Begin VB.Form frmMain
          SelectionBackgroundColor=   8438015
          SelectionBorderColor=   8438015
          SelectionForeColor=   16777215
-         ItemHeight      =   49
+         ItemHeight      =   57
       End
       Begin Project1.uButton ubtnSaveCurrent 
          Height          =   555
@@ -144,7 +177,7 @@ Begin VB.Form frmMain
          Height          =   555
          Left            =   720
          TabIndex        =   15
-         Top             =   5565
+         Top             =   6180
          Width           =   2310
          _ExtentX        =   4075
          _ExtentY        =   979
@@ -176,7 +209,7 @@ Begin VB.Form frmMain
          Height          =   555
          Left            =   135
          TabIndex        =   16
-         Top             =   5565
+         Top             =   6180
          Width           =   465
          _ExtentX        =   820
          _ExtentY        =   979
@@ -209,7 +242,7 @@ Begin VB.Form frmMain
          Index           =   4
          Left            =   135
          TabIndex        =   17
-         Top             =   4695
+         Top             =   5310
          Width           =   2895
          _ExtentX        =   5106
          _ExtentY        =   1296
@@ -257,14 +290,14 @@ Begin VB.Form frmMain
       End
    End
    Begin Project1.uFrame ufrmSavedSettings 
-      Height          =   5445
+      Height          =   6045
       Index           =   1
       Left            =   120
       TabIndex        =   3
       Top             =   885
       Width           =   5145
       _ExtentX        =   9075
-      _ExtentY        =   9604
+      _ExtentY        =   10663
       BackgroundColor =   4210752
       ForeColor       =   16777215
       Caption         =   "Monitors Found"
@@ -312,14 +345,14 @@ Begin VB.Form frmMain
          End
       End
       Begin Project1.uFrame ufrmSavedSettings 
-         Height          =   1455
+         Height          =   1335
          Index           =   2
          Left            =   135
          TabIndex        =   4
          Top             =   2100
          Width           =   4875
          _ExtentX        =   8599
-         _ExtentY        =   2566
+         _ExtentY        =   2355
          BackgroundColor =   4210752
          ForeColor       =   16777215
          Caption         =   "Display Information"
@@ -332,15 +365,49 @@ Begin VB.Form frmMain
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
+         Begin Project1.uButton ubtnSetPrimary 
+            Height          =   270
+            Left            =   3645
+            TabIndex        =   31
+            Top             =   1050
+            Visible         =   0   'False
+            Width           =   1215
+            _ExtentX        =   2143
+            _ExtentY        =   476
+            BackgroundColor =   33023
+            ForeColor       =   16777215
+            MouseOverBackgroundColor=   8438015
+            FocusColor      =   0
+            BackgroundColorDisabled=   12632256
+            BorderColorDisabled=   0
+            ForeColorDisabled=   0
+            MouseOverBackgroundColorDisabled=   12632256
+            CaptionBorderColorDisabled=   0
+            FocusColorDisabled=   0
+            FocusVisible    =   0   'False
+            Caption         =   "Set Primary"
+            Border          =   0   'False
+            BorderAnimation =   0
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Consolas"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Enabled         =   0   'False
+         End
          Begin VB.Label lblInfo 
             BackStyle       =   0  'Transparent
             Caption         =   "Offset: x:0 y:0"
             ForeColor       =   &H00FFFFFF&
             Height          =   315
             Index           =   3
-            Left            =   195
+            Left            =   120
             TabIndex        =   12
-            Top             =   1110
+            Top             =   1035
             Width           =   4455
          End
          Begin VB.Label lblInfo 
@@ -349,9 +416,9 @@ Begin VB.Form frmMain
             ForeColor       =   &H00FFFFFF&
             Height          =   285
             Index           =   2
-            Left            =   180
+            Left            =   120
             TabIndex        =   8
-            Top             =   810
+            Top             =   765
             Width           =   4485
          End
          Begin VB.Label lblInfo 
@@ -360,21 +427,22 @@ Begin VB.Form frmMain
             ForeColor       =   &H00FFFFFF&
             Height          =   285
             Index           =   1
-            Left            =   195
+            Left            =   120
             TabIndex        =   7
-            Top             =   525
+            Top             =   495
             Width           =   4425
          End
          Begin VB.Label lblInfo 
+            AutoSize        =   -1  'True
             BackStyle       =   0  'Transparent
-            Caption         =   "Resolution:"
+            Caption         =   "Hardware:"
             ForeColor       =   &H00FFFFFF&
-            Height          =   285
+            Height          =   225
             Index           =   0
-            Left            =   195
+            Left            =   120
             TabIndex        =   6
             Top             =   225
-            Width           =   4440
+            Width           =   945
          End
       End
       Begin Project1.uDropDown udrpMonitors 
@@ -407,14 +475,14 @@ Begin VB.Form frmMain
          VisibleItems    =   6
       End
       Begin Project1.uFrame ufrmSavedSettings 
-         Height          =   1665
+         Height          =   2385
          Index           =   3
          Left            =   135
          TabIndex        =   19
-         Top             =   3645
+         Top             =   3525
          Width           =   4875
          _ExtentX        =   8599
-         _ExtentY        =   2937
+         _ExtentY        =   4207
          BackgroundColor =   4210752
          ForeColor       =   16777215
          Caption         =   "Set new Resolution"
@@ -427,14 +495,37 @@ Begin VB.Form frmMain
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
+         Begin Project1.uTextBox utxtOffsetX 
+            Height          =   330
+            Left            =   1935
+            TabIndex        =   27
+            Top             =   1065
+            Width           =   2805
+            _ExtentX        =   4948
+            _ExtentY        =   582
+            BackgroundColor =   33023
+            BorderColor     =   0
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Consolas"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   16777215
+            Border          =   0   'False
+            Border          =   0   'False
+         End
          Begin Project1.uDropDown udrpResolution 
-            Height          =   375
+            Height          =   330
             Left            =   1935
             TabIndex        =   20
             Top             =   255
             Width           =   2805
             _ExtentX        =   4948
-            _ExtentY        =   661
+            _ExtentY        =   582
             BackgroundColor =   33023
             ForeColor       =   16777215
             SelectionBackgroundColor=   33023
@@ -456,13 +547,13 @@ Begin VB.Form frmMain
             VisibleItems    =   6
          End
          Begin Project1.uDropDown udrpRefreshRate 
-            Height          =   375
+            Height          =   330
             Left            =   1935
             TabIndex        =   21
-            Top             =   705
+            Top             =   660
             Width           =   2805
             _ExtentX        =   4948
-            _ExtentY        =   661
+            _ExtentY        =   582
             BackgroundColor =   33023
             ForeColor       =   16777215
             SelectionBackgroundColor=   33023
@@ -487,7 +578,7 @@ Begin VB.Form frmMain
             Height          =   375
             Left            =   1935
             TabIndex        =   24
-            Top             =   1155
+            Top             =   1875
             Width           =   2805
             _ExtentX        =   4948
             _ExtentY        =   661
@@ -515,6 +606,51 @@ Begin VB.Form frmMain
                Strikethrough   =   0   'False
             EndProperty
          End
+         Begin Project1.uTextBox utxtOffsetY 
+            Height          =   330
+            Left            =   1935
+            TabIndex        =   28
+            Top             =   1470
+            Width           =   2805
+            _ExtentX        =   4948
+            _ExtentY        =   582
+            BackgroundColor =   33023
+            BorderColor     =   0
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Consolas"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   16777215
+            Border          =   0   'False
+            Border          =   0   'False
+         End
+         Begin VB.Label lblSteps 
+            BackStyle       =   0  'Transparent
+            Caption         =   "4: OffsetY"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   240
+            Index           =   4
+            Left            =   135
+            TabIndex        =   29
+            Top             =   1515
+            Width           =   1725
+         End
+         Begin VB.Label lblSteps 
+            BackStyle       =   0  'Transparent
+            Caption         =   "3: OffsetX"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   240
+            Index           =   3
+            Left            =   135
+            TabIndex        =   26
+            Top             =   1110
+            Width           =   1725
+         End
          Begin VB.Label lblSteps 
             BackStyle       =   0  'Transparent
             Caption         =   "3: Profit"
@@ -523,7 +659,7 @@ Begin VB.Form frmMain
             Index           =   2
             Left            =   135
             TabIndex        =   25
-            Top             =   1200
+            Top             =   1935
             Width           =   1725
          End
          Begin VB.Label lblSteps 
@@ -545,10 +681,42 @@ Begin VB.Form frmMain
             Index           =   1
             Left            =   135
             TabIndex        =   22
-            Top             =   765
+            Top             =   705
             Width           =   1725
          End
       End
+   End
+   Begin Project1.uButton ubtnRefreshSetup 
+      Height          =   330
+      Left            =   135
+      TabIndex        =   32
+      Top             =   540
+      Width           =   1830
+      _ExtentX        =   3228
+      _ExtentY        =   582
+      BackgroundColor =   33023
+      ForeColor       =   16777215
+      MouseOverBackgroundColor=   8438015
+      FocusColor      =   0
+      BackgroundColorDisabled=   12632256
+      BorderColorDisabled=   0
+      ForeColorDisabled=   0
+      MouseOverBackgroundColorDisabled=   12632256
+      CaptionBorderColorDisabled=   0
+      FocusColorDisabled=   0
+      FocusVisible    =   0   'False
+      Caption         =   "Refresh Setup"
+      Border          =   0   'False
+      BorderAnimation =   0
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Consolas"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
    End
    Begin VB.Label lblStatus 
       ForeColor       =   &H00FFFFFF&
@@ -614,7 +782,7 @@ Sub refreshCurrentResolution(Optional scanModes As Boolean = True)
         EnumDisplaySettings sDeviceName, -1, monitors(i).displayResolutionCurrent
     Next i
     
-    calculateDisplayPositions scanModes
+    calculateDisplayPositions scanModes, udrpMonitors.ListIndex
     
 End Sub
 
@@ -731,16 +899,41 @@ Sub detectAllMonitors(Optional scanModes As Boolean = True)
 
     End If
     
-    udrpMonitors.Enabled = scanModes
-    udrpResolution.Enabled = scanModes
-    udrpRefreshRate.Enabled = scanModes
-    ubtnSetResolution.Enabled = scanModes
+    setMonitorManipulationEnabled scanModes
     
-    
-    calculateDisplayPositions scanModes
+    If scanModes Then testSaveMonitorModes
     
     ubtnScanMonitors.Enabled = True
     isScanning = False
+    
+    
+End Sub
+
+Sub setMonitorManipulationEnabled(Enabled As Boolean)
+    udrpMonitors.Enabled = Enabled
+    udrpResolution.Enabled = Enabled
+    udrpRefreshRate.Enabled = Enabled
+    ubtnSetResolution.Enabled = Enabled
+    ubtnRefreshSetup.Enabled = Enabled
+    
+    If Enabled Then
+        utxtOffsetX.BackgroundColor = udrpResolution.BackgroundColor
+        utxtOffsetY.BackgroundColor = udrpResolution.BackgroundColor
+        
+        utxtOffsetX.ForeColor = udrpResolution.ForeColor
+        utxtOffsetY.ForeColor = udrpResolution.ForeColor
+        
+    Else
+        utxtOffsetX.BackgroundColor = udrpResolution.BackgroundColorDisabled
+        utxtOffsetY.BackgroundColor = udrpResolution.BackgroundColorDisabled
+        
+        utxtOffsetX.ForeColor = udrpResolution.ForeColorDisabled
+        utxtOffsetY.ForeColor = udrpResolution.ForeColorDisabled
+        
+    End If
+    
+    
+    calculateDisplayPositions Enabled
     
     
 End Sub
@@ -768,11 +961,12 @@ Sub calculateDisplayPositions(Optional scanModes As Boolean = True, Optional sel
     Dim xCenter As Long
     Dim yCenter As Long
     
-    Dim h As Long
-    Dim w As Long
+    Dim H As Long
+    Dim W As Long
+
     
-    w = xMax - xMin
-    h = yMax - yMin
+    W = xMax - xMin
+    H = yMax - yMin
     
     xCenter = picDisplays.ScaleWidth / 2
     yCenter = picDisplays.ScaleHeight / 2
@@ -781,8 +975,8 @@ Sub calculateDisplayPositions(Optional scanModes As Boolean = True, Optional sel
     Dim yScale As Double
     Dim rescale As Double
     
-    xScale = (picDisplays.ScaleWidth - 3) / w
-    yScale = (picDisplays.ScaleHeight - 3) / h
+    xScale = (picDisplays.ScaleWidth - 3) / W
+    yScale = (picDisplays.ScaleHeight - 3) / H
     
     If xScale < yScale Then
         rescale = xScale
@@ -802,6 +996,7 @@ Sub calculateDisplayPositions(Optional scanModes As Boolean = True, Optional sel
     Dim tx As Long
     Dim ty As Long
     Dim printableIndex As Long
+    Dim tmpDev As devMode
     
     For i = 0 To UBound(monitors)
         picDisplay(i).Visible = True
@@ -809,34 +1004,43 @@ Sub calculateDisplayPositions(Optional scanModes As Boolean = True, Optional sel
         
         printableIndex = ReturnNonAlpha(StrConv(monitors(i).data.DeviceName, vbUnicode))
         
-        With monitors(i).displayResolutionCurrent
-            picDisplay(i).Left = xCenter - w / 2 * rescale + (.dmPosition.X - xMin) * rescale + 1
-            picDisplay(i).width = (.dmPelsWidth * rescale) - 2
+        tmpDev = monitors(i).displayResolutionCurrent
+        With picDisplay(i)
+            .Left = xCenter - W / 2 * rescale + Fix((tmpDev.dmPosition.X - xMin) * rescale) + 1
+            .width = (tmpDev.dmPelsWidth * rescale) - 2
             
-            picDisplay(i).Top = yCenter - h / 2 * rescale + (.dmPosition.Y - yMin) * rescale
-            picDisplay(i).height = (.dmPelsHeight * rescale) - 2
+            .Top = yCenter - H / 2 * rescale + Fix((tmpDev.dmPosition.Y - yMin) * rescale)
+            .Height = (tmpDev.dmPelsHeight * rescale) - 2
             
             
-            picDisplay(i).FontSize = Fix(picDisplay(i).ScaleHeight / 2)
-            xText = picDisplay(i).ScaleWidth / 2 - picDisplay(i).TextWidth(i & "") / 2
-            yText = picDisplay(i).ScaleHeight / 2 - picDisplay(i).TextHeight(i & "") / 2 - 1
+            .FontSize = Fix(.ScaleHeight / 2)
+            xText = .ScaleWidth / 2 - .TextWidth(i & "") / 2
+            yText = .ScaleHeight / 2 - .TextHeight(i & "") / 2 - 1
             
             For tx = -1 To 1
                 For ty = -1 To 1
                     If tx <> 0 And ty <> 0 Then
-                        picDisplay(i).CurrentX = xText + tx
-                        picDisplay(i).CurrentY = yText + ty
-                        picDisplay(i).ForeColor = IIf(scanModes, IIf(i = selectedIndex, &H80FF&, &H50FF), &H808080)
+                        .CurrentX = xText + tx
+                        .CurrentY = yText + ty
+                        .ForeColor = IIf(scanModes, IIf(i = selectedIndex, &H80FF&, &H50FF), &H808080)
                         picDisplay(i).Print printableIndex & ""
                     End If
                 Next ty
             Next tx
             
-            picDisplay(i).CurrentX = xText
-            picDisplay(i).CurrentY = yText
-            picDisplay(i).ForeColor = IIf(scanModes, &HFFFFFF, &HA0A0A0)
+            .CurrentX = xText
+            .CurrentY = yText
+            .ForeColor = IIf(scanModes, &HFFFFFF, &HA0A0A0)
             picDisplay(i).Print printableIndex & ""
             
+            
+            If tmpDev.dmPosition.X = 0 And tmpDev.dmPosition.Y = 0 Then 'primary monitor
+                .CurrentX = 3
+                .CurrentY = 0
+                .FontSize = Fix(.ScaleHeight / 6)
+                .ForeColor = IIf(scanModes, &HFFFFFF, &HA0A0A0)
+                picDisplay(i).Print "P"
+            End If
             
         End With
     Next i
@@ -859,7 +1063,7 @@ Private Sub Form_Load()
     
     uttHelp.setForm Me
  
-    uttHelp.Add ubtnScanMonitors.hwnd, "This scans the system for connected monitors" & vbCrLf & "and their supported modes."
+    uttHelp.Add ubtnScanMonitors.hWnd, "This scans the system for connected monitors" & vbCrLf & "and their supported modes."
    
     uttHelp.StartTimer
     
@@ -872,6 +1076,8 @@ Private Sub Form_Load()
     
     ulstSavedMonitors.setTabStop 0, 5
     
+    'testLoadMonitorModes
+    
     loadMonitors
     
     detectAllMonitors False
@@ -880,7 +1086,9 @@ Private Sub Form_Load()
     'ulstSavedMonitors.AddItem "1920x1080 @ 144Hz" & vbCrLf & "1920x1080 @ 144Hz" & vbCrLf & "1920x1080 @ 144Hz"
     ' detectAllMonitors
     
+    'showMessage "Could not change display 1"
     
+   
     Dim i As Long
     
     For i = 0 To 4
@@ -892,50 +1100,95 @@ Private Sub Form_Load()
         End If
     Next i
    
+
 End Sub
 
 
 
+Sub showMessage(Message As String, Optional isError As Boolean = False)
+    tmrErrorHide.Enabled = False
+    
+    With utxtError
+        .Text = " " & Message
+        .Redraw
+        .Left = Me.ScaleWidth / 2 - .width / 2
+        .Top = Me.ScaleHeight / 2 - .Height / 2
+        .Visible = True
+        If isError Then
+            tmrErrorHide.Interval = 1000
+            .BackgroundColor = &H8080FF
+            .ForeColor = &HFF&
+            .BorderColor = &HFF&
+        Else
+            tmrErrorHide.Interval = 2000
+            .BackgroundColor = &H74FF68
+            .ForeColor = &HC000&
+            .BorderColor = &HC000&
+        End If
+        
+    End With
+    
+    tmrErrorHide.Enabled = True
+End Sub
 
 
-Private Sub Form_Unload(Cancel As Integer)
+Private Sub Form_Unload(cancel As Integer)
     On Error Resume Next
     
     Unload frmIdentify
 End Sub
 
-Private Sub picDisplay_Click(index As Integer)
-    udrpMonitors.ListIndex = index
+Private Sub lblInfo_DblClick(Index As Integer)
+    Clipboard.Clear
+    
+    Clipboard.SetText lblInfo(Index).Caption
+    showMessage "Text Copied!"
 End Sub
 
-Private Sub picDisplay_DblClick(index As Integer)
+Private Sub picDisplay_Click(Index As Integer)
+    udrpMonitors.ListIndex = Index
+End Sub
+
+Private Sub picDisplay_DblClick(Index As Integer)
 
     Dim printableIndex As Long
     
-    printableIndex = ReturnNonAlpha(StrConv(monitors(index).data.DeviceName, vbUnicode))
+    printableIndex = ReturnNonAlpha(StrConv(monitors(Index).data.DeviceName, vbUnicode))
     
-    With monitors(index).displayResolutionCurrent
+    With monitors(Index).displayResolutionCurrent
         frmIdentify.customShow printableIndex, .dmPosition.X, .dmPosition.Y, .dmPelsWidth, .dmPelsHeight
     End With
     
 End Sub
 
+Private Sub tmrErrorHide_Timer()
+    utxtError.Visible = False
+    tmrErrorHide.Enabled = False
+End Sub
+
 Private Sub ubntDeleteSave_Click(Button As Integer, X As Single, Y As Single)
-    Dim index As Long
+    Dim Index As Long
     
-    index = ulstSavedMonitors.ListIndex
-    If index < 0 Then Exit Sub
+    Index = ulstSavedMonitors.ListIndex
+    If Index < 0 Then Exit Sub
     
-    index = ulstSavedMonitors.ItemData(index)
+    Index = ulstSavedMonitors.ItemData(Index)
     
-    savedResolution(index).isSave = False
-    Erase savedResolution(index).monitorSaveData
+    savedResolution(Index).isSave = False
+    Erase savedResolution(Index).monitorSaveData
     
     saveMonitors
     
     loadMonitors
     
     ulstSavedMonitors_ItemChange ulstSavedMonitors.ListIndex
+End Sub
+
+Private Sub ubtnRefreshSetup_Click(Button As Integer, X As Single, Y As Single)
+    If Not ubtnRefreshSetup.Enabled Then Exit Sub
+    
+    refreshCurrentResolution udrpMonitors.Enabled
+    showMessage "Done!"
 End Sub
 
 Private Sub ubtnSaveCurrent_Click(Button As Integer, X As Single, Y As Single)
@@ -977,6 +1230,43 @@ Private Sub ubtnSaveCurrent_Click(Button As Integer, X As Single, Y As Single)
     loadMonitors
     
 End Sub
+
+
+Sub testLoadMonitorModes()
+    Dim nFile As Long
+    Dim m As MonitorType
+    
+    nFile = FreeFile
+    
+    Open App.Path & "\monitorModes.bin" For Binary Access Read As #nFile
+        ReDim monitors(0 To 2)
+        Get #nFile, , monitors
+    Close nFile
+    
+    'Debug.Print UBound(monitors)
+    setMonitorManipulationEnabled True
+    
+    Dim i As Long
+    
+    udrpMonitors.Clear
+    
+    For i = 0 To 2
+        udrpMonitors.AddItem TrimNull(StrConv(monitors(i).data.DeviceName, vbUnicode))
+    Next i
+    
+    udrpMonitors.ItemsVisible = 3
+End Sub
+
+
+Sub testSaveMonitorModes()
+    Dim nFile As Long
+    nFile = FreeFile
+    
+    Open App.Path & "\monitorModes.bin" For Binary Access Write As #nFile
+        Put #nFile, , monitors
+    Close nFile
+End Sub
+
 
 Sub saveMonitors()
     Dim nFile As Long
@@ -1032,8 +1322,37 @@ endit:
 End Sub
 
 Private Sub ubtnScanMonitors_Click(Button As Integer, X As Single, Y As Single)
-    MsgBox "This will take around 10 to 20 seconds"
+    If Not ubtnScanMonitors.Enabled Then Exit Sub
+    showMessage "Could take some time..."
     detectAllMonitors
+    showMessage "Done!"
+End Sub
+
+Private Sub ubtnSetPrimary_Click(Button As Integer, X As Single, Y As Single)
+    If Not ubtnSetPrimary.Enabled Then Exit Sub
+    
+    Dim monitorIndex As Long
+    Dim sDeviceName As String
+    
+    monitorIndex = udrpMonitors.ListIndex
+    If monitorIndex = -1 Then Exit Sub
+    
+    sDeviceName = TrimNull(StrConv(monitors(monitorIndex).data.DeviceName, vbUnicode))
+    
+    monitors(monitorIndex).displayResolutionCurrent.dmPosition.X = 0
+    monitors(monitorIndex).displayResolutionCurrent.dmPosition.Y = 0
+    monitors(monitorIndex).displayResolutionCurrent.dmFields = DM_POSITION
+    
+    Select Case ChangeDisplaySettingsEx(sDeviceName, monitors(monitorIndex).displayResolutionCurrent, 0, CDS_UPDATEREGISTRY Or CDS_SET_PRIMARY Or CDS_NORESET, 0)
+        Case DISP_CHANGE_SUCCESSFUL
+            showMessage "GOOD"
+        Case DISP_CHANGE_RESTART
+            showMessage "restart"
+        Case Else
+            showMessage "bad", True
+    End Select
+    
+    Debug.Print "click"
 End Sub
 
 Private Sub ubtnSetResolution_Click(Button As Integer, X As Single, Y As Single)
@@ -1055,48 +1374,65 @@ Private Sub ubtnSetResolution_Click(Button As Integer, X As Single, Y As Single)
     sDeviceName = TrimNull(StrConv(monitors(monitorIndex).data.DeviceName, vbUnicode))
     d = monitors(monitorIndex).displayResolutions(devModeIndex)
     
+    If Not IsNumeric(utxtOffsetX.Text) Or Not IsNumeric(utxtOffsetY.Text) Then Exit Sub
+    
+    d.dmPosition.X = Val(utxtOffsetX.Text)
+    d.dmPosition.Y = Val(utxtOffsetY.Text)
+    
+    d.dmFields = DM_POSITION
+    
     Debug.Print d.dmPelsWidth & "x" & d.dmPelsHeight & " @ " & d.dmDisplayFrequency
     
-
-    setResolution sDeviceName, d
-    
+    Select Case setResolution(sDeviceName, d)
+        Case 0
+            showMessage "Resolution set for " & sDeviceName
+        Case 1
+            showMessage "Restart required for " & sDeviceName, True
+        Case -1
+            showMessage "Could not change " & sDeviceName, True
+        
+    End Select
     refreshCurrentResolution
+    
+    
     
 End Sub
 
-Private Sub setResolution(DeviceName As String, dev As devMode)
-    
+Private Function setResolution(DeviceName As String, dev As devMode) As Long
     Select Case ChangeDisplaySettingsEx(DeviceName, dev, 0, CDS_UPDATEREGISTRY, 0)
         Case DISP_CHANGE_SUCCESSFUL
             Debug.Print DeviceName & " succeeded"
+            setResolution = 0
         Case DISP_CHANGE_RESTART
             Debug.Print DeviceName & " needs a restart"
+            setResolution = 1
         Case Else
             Debug.Print DeviceName & " could not change"
+            setResolution = -1
     End Select
-End Sub
+End Function
 
 Private Sub ubtnSetSavedResolution_Click(Button As Integer, X As Single, Y As Single)
-    Dim index As Long
+    Dim Index As Long
     
     
-    index = ulstSavedMonitors.ListIndex
-    If index = -1 Then Exit Sub
+    Index = ulstSavedMonitors.ListIndex
+    If Index = -1 Then Exit Sub
     
     
     
-    setSavedResolution index
+    setSavedResolution Index
 End Sub
 
-Sub setSavedResolution(index As Long)
+Sub setSavedResolution(Index As Long)
     Dim i As Long
     Dim DeviceName As String
     On Error GoTo endit:
     
-    For i = 0 To UBound(savedResolution(index).monitorSaveData)
-        DeviceName = TrimNull(StrConv(savedResolution(index).monitorSaveData(i).data.DeviceName, vbUnicode))
+    For i = 0 To UBound(savedResolution(Index).monitorSaveData)
+        DeviceName = TrimNull(StrConv(savedResolution(Index).monitorSaveData(i).data.DeviceName, vbUnicode))
         
-        setResolution DeviceName, savedResolution(index).monitorSaveData(i).displayResolutionCurrent
+        setResolution DeviceName, savedResolution(Index).monitorSaveData(i).displayResolutionCurrent
         
     Next i
     
@@ -1105,12 +1441,12 @@ endit:
 End Sub
 
 Private Sub uchkLoadOnStartup_ActivateNextState(u_Cancel As Boolean, u_NewState As uCheckboxConstants)
-    Dim index As Long
+    Dim Index As Long
     
-    index = ulstSavedMonitors.ListIndex
-    If index = -1 Then Exit Sub
+    Index = ulstSavedMonitors.ListIndex
+    If Index = -1 Then Exit Sub
     
-    index = ulstSavedMonitors.ItemData(index)
+    Index = ulstSavedMonitors.ItemData(Index)
     
     Dim i As Long
     
@@ -1126,7 +1462,7 @@ Private Sub uchkLoadOnStartup_ActivateNextState(u_Cancel As Boolean, u_NewState 
         u_NewState = u_unChecked
     End If
     
-    savedResolution(index).loadOnStartup = IIf(u_NewState = u_Checked, True, False)
+    savedResolution(Index).loadOnStartup = IIf(u_NewState = u_Checked, True, False)
 
     saveMonitors
 End Sub
@@ -1139,12 +1475,18 @@ Private Sub udrpMonitors_ItemChange(ItemIndex As Long)
     If ItemIndex = -1 Then Exit Sub
     
     With monitors(ItemIndex).displayResolutionCurrent
-        lblInfo(0).Caption = "Resolution: " & .dmPelsWidth & "x" & .dmPelsHeight & " @ " & .dmDisplayFrequency & "Hz"
+        lblInfo(0).Caption = "Hardware: " & TrimNull(StrConv(monitors(ItemIndex).data.DeviceID, vbUnicode))
         lblInfo(1).Caption = "Colors: " & .dmBitsPerPel & "-bits"
         lblInfo(2).Caption = "VideoCard: " & TrimNull(StrConv(monitors(ItemIndex).data.DeviceString, vbUnicode))
         lblInfo(3).Caption = "Offset: x:" & .dmPosition.X & " y:" & .dmPosition.Y
         
+        If .dmPosition.X = 0 And .dmPosition.Y = 0 Then
+            ubtnSetPrimary.Enabled = False
+        Else
+            ubtnSetPrimary.Enabled = True
+        End If
     End With
+    
     
     
     
@@ -1175,6 +1517,10 @@ Private Sub udrpMonitors_ItemChange(ItemIndex As Long)
     Next i
     
     udrpResolution.RedrawResume
+    
+    utxtOffsetX.Text = monitors(ItemIndex).displayResolutionCurrent.dmPosition.X
+    utxtOffsetY.Text = monitors(ItemIndex).displayResolutionCurrent.dmPosition.Y
+    
     
     If selectionIndex <> -1 Then udrpResolution.ListIndex = selectionIndex
     
@@ -1234,18 +1580,18 @@ Private Sub ulstSavedMonitors_DblClick()
 End Sub
 
 Private Sub ulstSavedMonitors_ItemChange(ItemIndex As Long)
-    Dim index As Long
+    Dim Index As Long
     
-    index = ulstSavedMonitors.ListIndex
-    If index = -1 Then
+    Index = ulstSavedMonitors.ListIndex
+    If Index = -1 Then
         uchkLoadOnStartup.Visible = False
         Exit Sub
     Else
         uchkLoadOnStartup.Visible = True
     End If
     
-    index = ulstSavedMonitors.ItemData(index)
-    uchkLoadOnStartup.Value = IIf(savedResolution(index).loadOnStartup, u_Checked, u_unChecked)
+    Index = ulstSavedMonitors.ItemData(Index)
+    uchkLoadOnStartup.Value = IIf(savedResolution(Index).loadOnStartup, u_Checked, u_unChecked)
     
     
 End Sub
@@ -1259,5 +1605,49 @@ End Sub
 
 
 
+Private Sub utxtError_Click(ByVal charIndex As Long, ByVal charRow As Long)
+    tmrErrorHide_Timer
+End Sub
 
+Private Sub utxtOffsetX_KeyDown(ByRef KeyCode As Integer, ByRef Shift As Integer)
+    Dim tmpText As String
+    
+    Select Case KeyCode
+        Case vbKeyV
+            If Shift = 2 Then
+                tmpText = Clipboard.GetText
+                If Not IsNumeric(tmpText) Then
+                    KeyCode = 0
+                    Shift = 0
+                End If
+            Else
+                KeyCode = 0
+                Shift = 0
+            End If
+        
+        Case vbKeyA, vbKeyC, vbKeyX
+            If Not (Shift = 2) Then
+                KeyCode = 0
+                Shift = 0
+            End If
+            
+        Case vbKey0 To vbKey9, 189 '189 = minus
+            If Not (Shift = 0) Then
+                KeyCode = 0
+                Shift = 0
+            End If
+            
+        Case vbKeyBack, vbKeyDelete, vbKeySubtract, vbKeyNumpad0 To vbKeyNumpad9
+        
+        
+        Case Else
+            KeyCode = 0
+            Shift = 0
+            
+    End Select
+    
+End Sub
 
+Private Sub utxtOffsetY_KeyDown(ByRef KeyCode As Integer, ByRef Shift As Integer)
+    utxtOffsetX_KeyDown KeyCode, Shift
+End Sub
