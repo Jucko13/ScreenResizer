@@ -16,7 +16,6 @@ Begin VB.Form frmMain
       Strikethrough   =   0   'False
    EndProperty
    LinkTopic       =   "Form1"
-   LockControls    =   -1  'True
    ScaleHeight     =   478
    ScaleMode       =   3  'Pixel
    ScaleWidth      =   586
@@ -500,8 +499,8 @@ Begin VB.Form frmMain
             Left            =   1935
             TabIndex        =   27
             Top             =   1065
-            Width           =   2805
-            _ExtentX        =   4948
+            Width           =   1140
+            _ExtentX        =   2011
             _ExtentY        =   582
             BackgroundColor =   33023
             BorderColor     =   0
@@ -608,11 +607,11 @@ Begin VB.Form frmMain
          End
          Begin Project1.uTextBox utxtOffsetY 
             Height          =   330
-            Left            =   1935
+            Left            =   3600
             TabIndex        =   28
-            Top             =   1470
-            Width           =   2805
-            _ExtentX        =   4948
+            Top             =   1065
+            Width           =   1140
+            _ExtentX        =   2011
             _ExtentY        =   582
             BackgroundColor =   33023
             BorderColor     =   0
@@ -629,9 +628,59 @@ Begin VB.Form frmMain
             Border          =   0   'False
             Border          =   0   'False
          End
+         Begin Project1.uDropDown udrpOrientation 
+            Height          =   330
+            Left            =   1935
+            TabIndex        =   35
+            Top             =   1470
+            Width           =   2805
+            _ExtentX        =   4948
+            _ExtentY        =   582
+            BackgroundColor =   33023
+            ForeColor       =   16777215
+            SelectionBackgroundColor=   33023
+            SelectionBorderColor=   33023
+            BackgroundColorDisabled=   12632256
+            SelectionBackgroundColorDisabled=   16777215
+            SelectionBorderColorDisabled=   16777215
+            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "Consolas"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Text            =   ""
+            Border          =   0   'False
+            VisibleItems    =   6
+         End
          Begin VB.Label lblSteps 
             BackStyle       =   0  'Transparent
-            Caption         =   "4: OffsetY"
+            Caption         =   "Y:"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   240
+            Index           =   6
+            Left            =   3360
+            TabIndex        =   34
+            Top             =   1110
+            Width           =   390
+         End
+         Begin VB.Label lblSteps 
+            BackStyle       =   0  'Transparent
+            Caption         =   "X:"
+            ForeColor       =   &H00FFFFFF&
+            Height          =   240
+            Index           =   5
+            Left            =   1695
+            TabIndex        =   33
+            Top             =   1110
+            Width           =   390
+         End
+         Begin VB.Label lblSteps 
+            BackStyle       =   0  'Transparent
+            Caption         =   "4: Orientation:"
             ForeColor       =   &H00FFFFFF&
             Height          =   240
             Index           =   4
@@ -642,14 +691,14 @@ Begin VB.Form frmMain
          End
          Begin VB.Label lblSteps 
             BackStyle       =   0  'Transparent
-            Caption         =   "3: OffsetX"
+            Caption         =   "3: Offset"
             ForeColor       =   &H00FFFFFF&
             Height          =   240
             Index           =   3
             Left            =   135
             TabIndex        =   26
             Top             =   1110
-            Width           =   1725
+            Width           =   1035
          End
          Begin VB.Label lblSteps 
             BackStyle       =   0  'Transparent
@@ -915,6 +964,7 @@ Sub setMonitorManipulationEnabled(Enabled As Boolean)
     udrpRefreshRate.Enabled = Enabled
     ubtnSetResolution.Enabled = Enabled
     ubtnRefreshSetup.Enabled = Enabled
+    udrpOrientation.Enabled = Enabled
     
     If Enabled Then
         utxtOffsetX.BackgroundColor = udrpResolution.BackgroundColor
@@ -1072,7 +1122,10 @@ Private Sub Form_Load()
     
     uchkLoadOnStartup.Caption = "Load saved settings" & vbCrLf & "on program start."
     
-    
+    udrpOrientation.AddItem "Landscape:   0°    ", 0
+    udrpOrientation.AddItem "Landscape: 180°    ", 2
+    udrpOrientation.AddItem "Portrait:   90° CCW", 1
+    udrpOrientation.AddItem "Portrait:   90°  CW", 3
     
     ulstSavedMonitors.setTabStop 0, 5
     
@@ -1138,24 +1191,24 @@ Private Sub Form_Unload(cancel As Integer)
     Unload frmIdentify
 End Sub
 
-Private Sub lblInfo_DblClick(Index As Integer)
+Private Sub lblInfo_DblClick(index As Integer)
     Clipboard.Clear
     
-    Clipboard.SetText lblInfo(Index).Caption
+    Clipboard.SetText lblInfo(index).Caption
     showMessage "Text Copied!"
 End Sub
 
-Private Sub picDisplay_Click(Index As Integer)
-    udrpMonitors.ListIndex = Index
+Private Sub picDisplay_Click(index As Integer)
+    udrpMonitors.ListIndex = index
 End Sub
 
-Private Sub picDisplay_DblClick(Index As Integer)
+Private Sub picDisplay_DblClick(index As Integer)
 
     Dim printableIndex As Long
     
-    printableIndex = ReturnNonAlpha(StrConv(monitors(Index).data.DeviceName, vbUnicode))
+    printableIndex = ReturnNonAlpha(StrConv(monitors(index).data.DeviceName, vbUnicode))
     
-    With monitors(Index).displayResolutionCurrent
+    With monitors(index).displayResolutionCurrent
         frmIdentify.customShow printableIndex, .dmPosition.X, .dmPosition.Y, .dmPelsWidth, .dmPelsHeight
     End With
     
@@ -1167,15 +1220,15 @@ Private Sub tmrErrorHide_Timer()
 End Sub
 
 Private Sub ubntDeleteSave_Click(Button As Integer, X As Single, Y As Single)
-    Dim Index As Long
+    Dim index As Long
     
-    Index = ulstSavedMonitors.ListIndex
-    If Index < 0 Then Exit Sub
+    index = ulstSavedMonitors.ListIndex
+    If index < 0 Then Exit Sub
     
-    Index = ulstSavedMonitors.ItemData(Index)
+    index = ulstSavedMonitors.ItemData(index)
     
-    savedResolution(Index).isSave = False
-    Erase savedResolution(Index).monitorSaveData
+    savedResolution(index).isSave = False
+    Erase savedResolution(index).monitorSaveData
     
     saveMonitors
     
@@ -1361,6 +1414,8 @@ Private Sub ubtnSetResolution_Click(Button As Integer, X As Single, Y As Single)
     Dim sDeviceName As String
     
     
+    If ubtnSetResolution.Enabled = False Then Exit Sub
+    
     monitorIndex = udrpMonitors.ListIndex
     If monitorIndex = -1 Then Exit Sub
     
@@ -1374,14 +1429,63 @@ Private Sub ubtnSetResolution_Click(Button As Integer, X As Single, Y As Single)
     sDeviceName = TrimNull(StrConv(monitors(monitorIndex).data.DeviceName, vbUnicode))
     d = monitors(monitorIndex).displayResolutions(devModeIndex)
     
+    
+    Debug.Print d.dmDeviceName
+    Debug.Print d.dmSpecVersion
+    Debug.Print d.dmDriverVersion
+    Debug.Print d.dmSize
+    Debug.Print d.dmDriverExtra
+    Debug.Print d.dmFields
+    Debug.Print d.dmPosition.X
+    Debug.Print d.dmPosition.Y
+    Debug.Print d.dmDisplayOrientation
+    Debug.Print d.dmDisplayFixedOutput
+    Debug.Print d.dmColor
+    Debug.Print d.dmDuplex
+    Debug.Print d.dmYResolution
+    Debug.Print d.dmTTOption
+    Debug.Print d.dmCollate
+    Debug.Print d.dmFormName
+    Debug.Print d.dmLogPixels
+    Debug.Print d.dmBitsPerPel
+    Debug.Print d.dmPelsWidth
+    Debug.Print d.dmPelsHeight
+    Debug.Print d.dmDisplayFlags
+    Debug.Print d.dmDisplayFrequency
+    
+    
+    
     If Not IsNumeric(utxtOffsetX.Text) Or Not IsNumeric(utxtOffsetY.Text) Then Exit Sub
     
     d.dmPosition.X = Val(utxtOffsetX.Text)
     d.dmPosition.Y = Val(utxtOffsetY.Text)
     
-    d.dmFields = DM_POSITION
+    d.dmDisplayOrientation = udrpOrientation.ItemData(udrpOrientation.ListIndex)
     
-    Debug.Print d.dmPelsWidth & "x" & d.dmPelsHeight & " @ " & d.dmDisplayFrequency
+    Dim tmpWidth As Long
+    
+    If (d.dmDisplayOrientation And 1) = 1 Then
+        
+        If d.dmPelsWidth > d.dmPelsHeight Then
+            tmpWidth = d.dmPelsWidth
+            d.dmPelsWidth = d.dmPelsHeight
+            d.dmPelsHeight = tmpWidth
+        End If
+    Else
+        If d.dmPelsWidth < d.dmPelsHeight Then
+            tmpWidth = d.dmPelsWidth
+            d.dmPelsWidth = d.dmPelsHeight
+            d.dmPelsHeight = tmpWidth
+        End If
+    End If
+    
+    
+    d.dmFields = 544997536 'DM_POSITION Or DM_DISPLAYORIENTATION Or DM_PELSHEIGHT Or DM_PELSWIDTH Or DM_DISPLAYFLAGS Or DM_DISPLAYFREQUENCY Or DM_BITSPERPEL Or DM_DISPLAYFIXEDOUTPUT
+    
+    'Debug.Print d.dmPelsWidth & "x" & d.dmPelsHeight & " @ " & d.dmDisplayFrequency & " " & d.dmDisplayFixedOutput
+    
+
+    
     
     Select Case setResolution(sDeviceName, d)
         Case 0
@@ -1399,7 +1503,11 @@ Private Sub ubtnSetResolution_Click(Button As Integer, X As Single, Y As Single)
 End Sub
 
 Private Function setResolution(DeviceName As String, dev As devMode) As Long
-    Select Case ChangeDisplaySettingsEx(DeviceName, dev, 0, CDS_UPDATEREGISTRY, 0)
+    Dim res As Long
+    
+    res = ChangeDisplaySettingsEx(DeviceName, dev, 0, CDS_UPDATEREGISTRY Or CDS_FORCE, 0)
+    
+    Select Case res
         Case DISP_CHANGE_SUCCESSFUL
             Debug.Print DeviceName & " succeeded"
             setResolution = 0
@@ -1407,32 +1515,61 @@ Private Function setResolution(DeviceName As String, dev As devMode) As Long
             Debug.Print DeviceName & " needs a restart"
             setResolution = 1
         Case Else
-            Debug.Print DeviceName & " could not change"
+            Debug.Print DeviceName & " could not change. Error: " & res
             setResolution = -1
     End Select
 End Function
 
 Private Sub ubtnSetSavedResolution_Click(Button As Integer, X As Single, Y As Single)
-    Dim Index As Long
+    Dim index As Long
     
     
-    Index = ulstSavedMonitors.ListIndex
-    If Index = -1 Then Exit Sub
+    index = ulstSavedMonitors.ListIndex
+    If index = -1 Then Exit Sub
     
     
     
-    setSavedResolution Index
+    setSavedResolution index
 End Sub
 
-Sub setSavedResolution(Index As Long)
+Sub setSavedResolution(index As Long)
     Dim i As Long
     Dim DeviceName As String
+    Dim d As devMode
+    
     On Error GoTo endit:
     
-    For i = 0 To UBound(savedResolution(Index).monitorSaveData)
-        DeviceName = TrimNull(StrConv(savedResolution(Index).monitorSaveData(i).data.DeviceName, vbUnicode))
+    For i = 0 To UBound(savedResolution(index).monitorSaveData)
+        DeviceName = TrimNull(StrConv(savedResolution(index).monitorSaveData(i).data.DeviceName, vbUnicode))
         
-        setResolution DeviceName, savedResolution(Index).monitorSaveData(i).displayResolutionCurrent
+        setResolution DeviceName, savedResolution(index).monitorSaveData(i).displayResolutionCurrent
+        
+        d = savedResolution(index).monitorSaveData(i).displayResolutionCurrent
+        
+        If DeviceName = "\\.\DISPLAY2" Then
+            Debug.Print d.dmDeviceName
+            Debug.Print d.dmSpecVersion
+            Debug.Print d.dmDriverVersion
+            Debug.Print d.dmSize
+            Debug.Print d.dmDriverExtra
+            Debug.Print d.dmFields
+            Debug.Print d.dmPosition.X
+            Debug.Print d.dmPosition.Y
+            Debug.Print d.dmDisplayOrientation
+            Debug.Print d.dmDisplayFixedOutput
+            Debug.Print d.dmColor
+            Debug.Print d.dmDuplex
+            Debug.Print d.dmYResolution
+            Debug.Print d.dmTTOption
+            Debug.Print d.dmCollate
+            Debug.Print d.dmFormName
+            Debug.Print d.dmLogPixels
+            Debug.Print d.dmBitsPerPel
+            Debug.Print d.dmPelsWidth
+            Debug.Print d.dmPelsHeight
+            Debug.Print d.dmDisplayFlags
+            Debug.Print d.dmDisplayFrequency
+        End If
         
     Next i
     
@@ -1441,12 +1578,12 @@ endit:
 End Sub
 
 Private Sub uchkLoadOnStartup_ActivateNextState(u_Cancel As Boolean, u_NewState As uCheckboxConstants)
-    Dim Index As Long
+    Dim index As Long
     
-    Index = ulstSavedMonitors.ListIndex
-    If Index = -1 Then Exit Sub
+    index = ulstSavedMonitors.ListIndex
+    If index = -1 Then Exit Sub
     
-    Index = ulstSavedMonitors.ItemData(Index)
+    index = ulstSavedMonitors.ItemData(index)
     
     Dim i As Long
     
@@ -1462,7 +1599,7 @@ Private Sub uchkLoadOnStartup_ActivateNextState(u_Cancel As Boolean, u_NewState 
         u_NewState = u_unChecked
     End If
     
-    savedResolution(Index).loadOnStartup = IIf(u_NewState = u_Checked, True, False)
+    savedResolution(index).loadOnStartup = IIf(u_NewState = u_Checked, True, False)
 
     saveMonitors
 End Sub
@@ -1521,6 +1658,7 @@ Private Sub udrpMonitors_ItemChange(ItemIndex As Long)
     utxtOffsetX.Text = monitors(ItemIndex).displayResolutionCurrent.dmPosition.X
     utxtOffsetY.Text = monitors(ItemIndex).displayResolutionCurrent.dmPosition.Y
     
+    udrpOrientation.ListIndex = monitors(ItemIndex).displayResolutionCurrent.dmDisplayOrientation
     
     If selectionIndex <> -1 Then udrpResolution.ListIndex = selectionIndex
     
@@ -1580,18 +1718,18 @@ Private Sub ulstSavedMonitors_DblClick()
 End Sub
 
 Private Sub ulstSavedMonitors_ItemChange(ItemIndex As Long)
-    Dim Index As Long
+    Dim index As Long
     
-    Index = ulstSavedMonitors.ListIndex
-    If Index = -1 Then
+    index = ulstSavedMonitors.ListIndex
+    If index = -1 Then
         uchkLoadOnStartup.Visible = False
         Exit Sub
     Else
         uchkLoadOnStartup.Visible = True
     End If
     
-    Index = ulstSavedMonitors.ItemData(Index)
-    uchkLoadOnStartup.Value = IIf(savedResolution(Index).loadOnStartup, u_Checked, u_unChecked)
+    index = ulstSavedMonitors.ItemData(index)
+    uchkLoadOnStartup.Value = IIf(savedResolution(index).loadOnStartup, u_Checked, u_unChecked)
     
     
 End Sub

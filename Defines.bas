@@ -88,21 +88,46 @@ Declare Function EnumDisplayDevices Lib "user32" _
    ByVal dwFlags As Long) As Long
    
    
-Global Const CDS_UPDATEREGISTRY As Long = &H1
-Global Const CDS_TEST As Long = &H4
-Global Const CDS_RESET As Long = &H40000000
-Global Const CDS_SET_PRIMARY As Long = &H10
-Global Const CDS_NORESET As Long = &H10000000
-Global Const CDS_FORCE As Long = &H80000000
+Global Const CDS_UPDATEREGISTRY     As Long = &H1
+Global Const CDS_TEST               As Long = &H4
+Global Const CDS_RESET              As Long = &H40000000
+Global Const CDS_SET_PRIMARY        As Long = &H10
+Global Const CDS_NORESET            As Long = &H10000000
+Global Const CDS_FORCE              As Long = &H80000000
 
 Global Const DISP_CHANGE_SUCCESSFUL As Long = 0
-Global Const DISP_CHANGE_RESTART As Long = 1
+Global Const DISP_CHANGE_RESTART    As Long = 1
 
-Global Const DM_BITSPERPEL As Long = &H40000
-Global Const DM_PELSWIDTH As Long = &H80000
-Global Const DM_PELSHEIGHT As Long = &H100000
-Global Const DM_DISPLAYFREQUENCY As Long = &H400000
-Global Const DM_POSITION As Long = &H20
+Global Const DM_ORIENTATION = &H1 ' PRINTER
+Global Const DM_PAPERSIZE = &H2 ' PRINTER
+Global Const DM_PAPERLENGTH = &H4 ' PRINTER
+Global Const DM_PAPERWIDTH = &H8 ' PRINTER
+Global Const DM_SCALE = &H10 ' PRINTER
+Global Const DM_POSITION = &H20
+Global Const DM_NUP = &H40
+Global Const DM_DISPLAYORIENTATION = &H80 ' DISPLAY -- XP only
+Global Const DM_COPIES = &H100 ' PRINTER
+Global Const DM_DEFAULTSOURCE = &H200 ' PRINTER
+Global Const DM_PRINTQUALITY = &H400 ' PRINTER
+Global Const DM_COLOR = &H800 ' PRINTER
+Global Const DM_DUPLEX = &H1000 ' PRINTER
+Global Const DM_YRESOLUTION = &H2000 ' PRINTER
+Global Const DM_TTOPTION = &H4000 ' PRINTER
+Global Const DM_COLLATE = &H8000 ' PRINTER
+Global Const DM_FORMNAME = &H10000 ' PRINTER
+Global Const DM_LOGPIXELS = &H20000
+Global Const DM_BITSPERPEL = &H40000 ' DISPLAY
+Global Const DM_PELSWIDTH = &H80000 ' DISPLAY
+Global Const DM_PELSHEIGHT = &H100000 ' DISPLAY
+Global Const DM_DISPLAYFLAGS = &H200000 ' DISPLAY
+Global Const DM_DISPLAYFREQUENCY = &H400000 ' DISPLAY
+Global Const DM_ICMMETHOD = &H800000
+Global Const DM_ICMINTENT = &H1000000
+Global Const DM_MEDIATYPE = &H2000000
+Global Const DM_DITHERTYPE = &H4000000
+Global Const DM_PANNINGWIDTH = &H8000000
+Global Const DM_PANNINGHEIGHT = &H10000000
+Global Const DM_DISPLAYFIXEDOUTPUT = &H20000000 ' XP only
 
 Type DISPLAY_DEVICE
    cb As Long
