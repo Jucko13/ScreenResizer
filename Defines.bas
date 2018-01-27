@@ -76,7 +76,7 @@ End Type
 'End Type
 
 Declare Function ChangeDisplaySettingsEx Lib "user32" Alias "ChangeDisplaySettingsExA" _
-        (ByVal lpszDeviceName As String, ByRef lpDevMode As devMode, ByVal hWnd As Long, _
+        (ByVal lpszDeviceName As String, ByRef lpDevMode As devMode, ByVal hwnd As Long, _
         ByVal dwFlags As Long, ByVal lParam As Long) As Long
     
     
@@ -140,11 +140,15 @@ End Type
 
 
 
+
+
+
+
 Sub main()
     'uEnableMouseHooks = True
     uDontDrawDots = True
     
-    frmMain.Show
+    Load frmMain
     
 
 End Sub
