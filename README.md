@@ -19,11 +19,11 @@ This program has the following features:
 - Preview of the saved profiles on mouse-over.
 
 # How to use
-The screenshot below has numbers on certain parts of the program. Here is a explanation of every part:
+The screenshot below has numbers on certain parts of the program. Here is an explanation of every part:
 ![Main Program Image](images/StepByStep.png)
 
 1. Click this button to scan all attached monitors and their resolution modes. This might take a while on high-end multiple monitor setups.
-2. A refresh button for the visual representation of the displays. Use this if you changed the a display resolution setting with a different program.
+2. A refresh button for the visual representation of the displays. Use this if you changed a display setting with a different program.
 3. Select a display you want to change. You can select from the dropdown menu or by clicking on the squares with a number in it. The 'P' stands for Primary Monitor.
 4. A tool to help you set the correct display settings for the selected display. Is only needed when creating a profile.
 5. If all your displays are at their correct settings, use this button to save the current setup.
