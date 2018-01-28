@@ -1,6 +1,6 @@
 # ScreenResizer
 
-Are you sick of changing the resolution of your multimonitor setup back to the right settings everytime you start your pc? Well, me too!
+Are you sick of changing the resolution of your multi-monitor setup back to the right settings everytime you start your pc? Well, me too!
 
 I wrote this program to help people to auto correct their display resolution settings when windows starts. This program is written in a timespan of around 3 days.
 
@@ -34,3 +34,12 @@ The screenshot below has numbers on certain parts of the program. Here is a expl
 
 **TIP:** You dont need the numbers 1, 2, 3 and 4. If all your displays are at the right settings already, just click the save (5), select the profile (6) and check the checkmark (7) to activate the profile when the program starts. Last but not least, select (7) to start with windows.
 
+# Build it yourself
+This program is written in Visual Basic 6.0. Yes, sorry, its old. I made some custom usercontrols in the past to make the old vb6 look a bit more appealing so I thought it wouldn't hurt to write this in vb6.
+
+This program should run fine on any version of windows (tested on Windows 10 Pro 64-bit) as long it has a x86 or x64 processor architecture.
+
+I committed an EXE, which is not the correct way. If I think that the program is finnished I will release a zip file with the EXE in it.
+
+# Licence
+You may do whatever you desire with the sourcecode except for one thing: You may not sell this code or program in any way. If you make changes you can make a pull request. Also, please, if you use this source-code: Don't forget to mention me: Jucko13.
