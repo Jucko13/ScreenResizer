@@ -19,6 +19,7 @@ Begin VB.Form frmMain
    ForeColor       =   &H00FFFFFF&
    Icon            =   "frmMain.frx":0000
    LinkTopic       =   "Form1"
+   LockControls    =   -1  'True
    MaxButton       =   0   'False
    ScaleHeight     =   480
    ScaleMode       =   3  'Pixel
@@ -106,8 +107,8 @@ Begin VB.Form frmMain
       Left            =   6150
       TabIndex        =   39
       Top             =   765
-      Width           =   3195
-      _ExtentX        =   5636
+      Width           =   3210
+      _ExtentX        =   5662
       _ExtentY        =   6694
       BackgroundColor =   33023
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -132,8 +133,8 @@ Begin VB.Form frmMain
       Left            =   6015
       TabIndex        =   0
       Top             =   60
-      Width           =   3465
-      _ExtentX        =   6112
+      Width           =   3480
+      _ExtentX        =   6138
       _ExtentY        =   10398
       BackgroundColor =   4210752
       ForeColor       =   16777215
@@ -152,8 +153,8 @@ Begin VB.Form frmMain
          Left            =   135
          TabIndex        =   10
          Top             =   255
-         Width           =   3195
-         _ExtentX        =   5636
+         Width           =   3210
+         _ExtentX        =   5662
          _ExtentY        =   582
          BackgroundColor =   33023
          ForeColor       =   16777215
@@ -181,11 +182,11 @@ Begin VB.Form frmMain
       End
       Begin Project1.uButton ubtnSetSavedResolution 
          Height          =   330
-         Left            =   870
+         Left            =   855
          TabIndex        =   14
          Top             =   5430
-         Width           =   2460
-         _ExtentX        =   4339
+         Width           =   2490
+         _ExtentX        =   4392
          _ExtentY        =   582
          BackgroundColor =   33023
          ForeColor       =   16777215
@@ -216,8 +217,8 @@ Begin VB.Form frmMain
          Left            =   135
          TabIndex        =   15
          Top             =   5430
-         Width           =   615
-         _ExtentX        =   1085
+         Width           =   645
+         _ExtentX        =   1138
          _ExtentY        =   582
          BackgroundColor =   33023
          ForeColor       =   16777215
@@ -249,8 +250,8 @@ Begin VB.Form frmMain
          Left            =   135
          TabIndex        =   16
          Top             =   4575
-         Width           =   3195
-         _ExtentX        =   5636
+         Width           =   3210
+         _ExtentX        =   5662
          _ExtentY        =   1296
          BackgroundColor =   4210752
          ForeColor       =   16777215
@@ -270,7 +271,7 @@ Begin VB.Form frmMain
             TabIndex        =   17
             Top             =   225
             Visible         =   0   'False
-            Width           =   2745
+            Width           =   3075
             _ExtentX        =   1455
             _ExtentY        =   794
             BackgroundColor =   4210752
@@ -421,9 +422,9 @@ Begin VB.Form frmMain
          EndProperty
          Begin Project1.uButton ubtnSetPrimary 
             Height          =   270
-            Left            =   3645
+            Left            =   4185
             TabIndex        =   30
-            Top             =   705
+            Top             =   780
             Visible         =   0   'False
             Width           =   1215
             _ExtentX        =   2143
@@ -757,7 +758,7 @@ Begin VB.Form frmMain
          End
          Begin VB.Label lblSteps 
             BackStyle       =   0  'Transparent
-            Caption         =   "3: Profit"
+            Caption         =   "5: Profit"
             ForeColor       =   &H00FFFFFF&
             Height          =   240
             Index           =   2
@@ -856,8 +857,8 @@ Begin VB.Form frmMain
       Left            =   6015
       TabIndex        =   40
       Top             =   6090
-      Width           =   3465
-      _ExtentX        =   6112
+      Width           =   3480
+      _ExtentX        =   6138
       _ExtentY        =   1746
       BackgroundColor =   4210752
       ForeColor       =   16777215
@@ -1106,7 +1107,7 @@ Sub detectAllMonitors(Optional scanModes As Boolean = True)
     udrpMonitors.ItemsVisible = IIf(udrpMonitors.ListCount < 1, 1, udrpMonitors.ListCount)
     
     monitorCount = UBound(monitors) + 1
-    lblStatus.Caption = "Monitors: " & totalMonitors & vbCrLf & "Modes: " & totalModes
+    lblStatus.Caption = "Monitors: " & totalMonitors & vbCrLf & "Modes: " & IIf(scanModes, totalModes, totalMonitors)
     If scanModes = False Then
         lblStatus.Caption = lblStatus.Caption & vbCrLf & "Click scan to unlock"
 
@@ -1114,7 +1115,7 @@ Sub detectAllMonitors(Optional scanModes As Boolean = True)
     
     setMonitorManipulationEnabled scanModes
     
-    If scanModes Then testSaveMonitorModes
+    'If scanModes Then testSaveMonitorModes
     
     ubtnScanMonitors.Enabled = True
     isScanning = False
@@ -1324,6 +1325,8 @@ Public Function ReturnNonAlpha(ByVal sString As String) As String
 End Function
 
 Private Sub Form_Load()
+    Dim i As Long
+    
     Load frmSysTray
     
     Set frmSystemTray = frmSysTray
@@ -1355,14 +1358,11 @@ Private Sub Form_Load()
     detectAllMonitors False
     
     lblStatus.BackStyle = 0
-    'ulstSavedMonitors.AddItem "1920x1080 @ 144Hz" & vbCrLf & "1920x1080 @ 144Hz" & vbCrLf & "1920x1080 @ 144Hz"
-    ' detectAllMonitors
     
     'showMessage "Could not change display 1"
     
-   
-    Dim i As Long
     
+
     For i = 0 To 4
         If savedResolution(i).isSave Then
             If savedResolution(i).loadOnStartup Then
@@ -1382,6 +1382,17 @@ Private Sub Form_Load()
         Me.Visible = True
     End If
     
+    Dim lCount As Long
+    For i = 0 To uoptMinimize.Count - 1
+        uoptMinimize(i).Value = GetSetting(App.EXEName, "global", "uoptMinimize(" & i & ").Value", u_UnSelected)
+        
+        lCount = lCount + IIf(uoptMinimize(i).Value = u_Selected, 1, 0)
+    Next i
+    
+    If lCount = 0 Then
+        uoptMinimize(0).Value = u_Selected
+    End If
+    
 End Sub
 
 
@@ -1396,12 +1407,12 @@ Sub showMessage(Message As String, Optional isError As Boolean = False)
         .Top = Me.ScaleHeight / 2 - .Height / 2
         .Visible = True
         If isError Then
-            tmrErrorHide.Interval = 1000
+            tmrErrorHide.Interval = 3000
             .BackgroundColor = &H8080FF
             .ForeColor = &HFF&
             .BorderColor = &HFF&
         Else
-            tmrErrorHide.Interval = 2000
+            tmrErrorHide.Interval = 3000
             .BackgroundColor = &H74FF68
             .ForeColor = &HC000&
             .BorderColor = &HC000&
@@ -1424,6 +1435,12 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
     On Error Resume Next
+    
+    If uoptMinimize(1).Value = u_Selected And exitTheProgram = False Then
+        Cancel = True
+        Me.Visible = False
+        Exit Sub
+    End If
     
     Unload frmIdentify
 End Sub
@@ -1789,12 +1806,16 @@ Sub setSavedResolution(Index As Long)
     Dim DeviceName As String
     Dim d As devMode
     
+    Dim res() As Long
+    
+    ReDim res(0 To UBound(savedResolution(Index).monitorSaveData))
+    
     On Error GoTo endit:
     
     For i = 0 To UBound(savedResolution(Index).monitorSaveData)
         DeviceName = TrimNull(StrConv(savedResolution(Index).monitorSaveData(i).data.DeviceName, vbUnicode))
         
-        setResolution DeviceName, savedResolution(Index).monitorSaveData(i).displayResolutionCurrent
+        res(i) = setResolution(DeviceName, savedResolution(Index).monitorSaveData(i).displayResolutionCurrent)
         
         d = savedResolution(Index).monitorSaveData(i).displayResolutionCurrent
         
@@ -1822,8 +1843,24 @@ Sub setSavedResolution(Index As Long)
             Debug.Print d.dmDisplayFlags
             Debug.Print d.dmDisplayFrequency
         End If
-        
     Next i
+    
+    Dim sMessage As String
+    
+    For i = 0 To UBound(savedResolution(Index).monitorSaveData)
+        If res(i) <> 0 Then
+            If Len(sMessage) > 0 Then sMessage = sMessage & ", "
+            DeviceName = ReturnNonAlpha(TrimNull(StrConv(savedResolution(Index).monitorSaveData(i).data.DeviceName, vbUnicode)))
+            sMessage = sMessage & DeviceName
+        End If
+    Next i
+    
+    
+    If Len(sMessage) > 0 Then
+        showMessage "Could not set display: " & sMessage, True
+    Else
+        showMessage "All displays set correctly"
+    End If
     
 endit:
     refreshCurrentResolution udrpMonitors.Enabled
@@ -2041,6 +2078,13 @@ Private Sub ulstSavedMonitors_MouseMove(Button As Integer, Shift As Integer, X A
     
     DoEvents
     isMovingOver = False
+End Sub
+
+Private Sub uoptMinimize_Changed(Index As Integer, u_NewState As uOptionBoxConstants)
+    Dim i As Long
+    For i = 0 To uoptMinimize.Count - 1
+        SaveSetting App.EXEName, "global", "uoptMinimize(" & i & ").Value", uoptMinimize(i).Value
+    Next i
 End Sub
 
 Private Sub utxtError_Click(ByVal charIndex As Long, ByVal charRow As Long)

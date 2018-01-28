@@ -139,14 +139,16 @@ Type DISPLAY_DEVICE
 End Type
 
 
+Global exitTheProgram As Boolean
 
 
 
 
-
-Sub main()
-    'uEnableMouseHooks = True
+Sub Main()
+    uEnableMouseHooks = True
     uDontDrawDots = True
+    
+    exitTheProgram = False
     
     Load frmMain
     

@@ -16,6 +16,7 @@ Begin VB.Form frmIdentify
       Italic          =   0   'False
       Strikethrough   =   0   'False
    EndProperty
+   Icon            =   "frmIdentify.frx":0000
    LinkTopic       =   "Form1"
    ScaleHeight     =   447
    ScaleMode       =   3  'Pixel
@@ -69,7 +70,7 @@ Sub setColorHack()
     SetLayeredWindowAttributes Me.hwnd, vbCyan, 0&, LWA_COLORKEY
 End Sub
 
-Sub customShow(index As Long, positionX As Long, positionY As Long, width As Long, height As Long)
+Sub customShow(Index As Long, positionX As Long, positionY As Long, width As Long, Height As Long)
     Me.Visible = False
     tmrVanish.Enabled = False
     Me.Picture = LoadPicture
@@ -79,7 +80,7 @@ Sub customShow(index As Long, positionX As Long, positionY As Long, width As Lon
     Me.Left = Screen.TwipsPerPixelX * positionX
     Me.Top = Screen.TwipsPerPixelY * positionY
     Me.width = Screen.TwipsPerPixelX * width
-    Me.height = Screen.TwipsPerPixelY * height
+    Me.Height = Screen.TwipsPerPixelY * Height
     
     Dim xText As Long
     Dim yText As Long
@@ -88,8 +89,8 @@ Sub customShow(index As Long, positionX As Long, positionY As Long, width As Lon
     Dim ty As Long
     
     Me.FontSize = 350 'Fix(Me.ScaleHeight / 2)
-    xText = Me.ScaleWidth / 2 - Me.TextWidth(index & "") / 2
-    yText = Me.ScaleHeight / 2 - Me.TextHeight(index & "") / 2 - 1
+    xText = Me.ScaleWidth / 2 - Me.TextWidth(Index & "") / 2
+    yText = Me.ScaleHeight / 2 - Me.TextHeight(Index & "") / 2 - 1
     
     For tx = -3 To 3
         For ty = -3 To 3
@@ -97,7 +98,7 @@ Sub customShow(index As Long, positionX As Long, positionY As Long, width As Lon
                 Me.CurrentX = xText + tx
                 Me.CurrentY = yText + ty
                 Me.ForeColor = &H80FF&
-                Me.Print index & ""
+                Me.Print Index & ""
             End If
         Next ty
     Next tx
@@ -105,7 +106,7 @@ Sub customShow(index As Long, positionX As Long, positionY As Long, width As Lon
     Me.CurrentX = xText
     Me.CurrentY = yText
     Me.ForeColor = vbWhite
-    Me.Print index & ""
+    Me.Print Index & ""
     
     
     

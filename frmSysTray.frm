@@ -152,6 +152,9 @@ End Sub
 Private Sub FSys_Unload(Cancel As Integer)
    ' Important: remove icon from tray, and unload this form when
    ' the main form is unloaded.
+   
+   If Cancel = True Then Exit Sub
+   
    UpdateIcon NIM_DELETE
    Unload Me
 End Sub
@@ -218,6 +221,7 @@ End Sub
 'End Sub
 
 Private Sub mnuExit_Click()
+    exitTheProgram = True
     Unload FSys
 End Sub
 
